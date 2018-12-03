@@ -1,0 +1,47 @@
+{
+  "name": "mdui-editor",
+  "version": "1.0.0",
+  "description": "Material Design 样式的富文本编辑器",
+  "main": "src/index.js",
+  "scripts": {
+    "build": "gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zdhxiong/mdui-editor.git"
+  },
+  "keywords": [
+    "mdui",
+    "editor",
+    "material design"
+  ],
+  "author": "zdhxiong",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zdhxiong/mdui-editor/issues"
+  },
+  "homepage": "https://github.com/zdhxiong/mdui-editor#readme",
+  "dependencies": {
+    "mdui": "^0.4.2"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "gulp": "^3.9.1",
+    "gulp-header": "^2.0.5",
+    "gulp-rename": "^1.4.0",
+    "gulp-sourcemaps": "^2.6.4",
+    "gulp-uglify": "^3.0.0",
+    "rollup": "^0.67.3",
+    "rollup-plugin-buble": "^0.19.4",
+    "rollup-plugin-commonjs": "9.2.0",
+    "rollup-plugin-eslint": "^5.0.0",
+    "rollup-plugin-node-resolve": "^3.4.0",
+    "rollup-stream": "^1.24.1",
+    "vinyl-buffer": "^1.0.1",
+    "vinyl-source-stream": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=10"
+  }
+}
