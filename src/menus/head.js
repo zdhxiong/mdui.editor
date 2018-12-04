@@ -14,22 +14,23 @@ class Head {
 
   onclick() {
     const { editor } = this;
-    const $rootElem = editor.selection.getRootElem();
+    const { selection, cmd } = editor;
+    const $rootElem = selection.getRootElem();
 
     if (this._active) {
       // 若当前是 h2，则转换为 p
       const text = $rootElem.text();
-      editor.cmd.do('replaceRoot', text ? `<p>${text}</p>` : '<p><br></p>');
+      cmd.do('replaceRoot', text ? `<p>${text}</p>` : '<p><br></p>');
 
       return;
     }
 
     if (!$rootElem.length) {
-      const range = editor.selection.getRange();
+      const range = selection.getRange();
 
       if (range.collapsed) {
         // 没有选中任何选区，在最后添加一行
-        editor.cmd.do('appendHTML', '<h2><br></h2>');
+        cmd.do('appendHTML', '<h2><br></h2>');
       } else {
         // 选中了多行，不处理
       }
@@ -38,7 +39,7 @@ class Head {
     }
 
     // 选中单行，需要移除选区内所有子元素的标签，然后转换为 h2
-    editor.cmd.do('replaceRoot', `<h2>${replaceHtmlSymbol($rootElem.text())}</h2>`);
+    cmd.do('replaceRoot', `<h2>${replaceHtmlSymbol($rootElem.text())}</h2>`);
   }
 
   isActive() {

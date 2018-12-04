@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="renderer" content="webkit"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+  <meta http-equiv="Cache-Control" content="no-siteapp"/>
+  <title>mdui-editor 示例</title>
+  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css"/>
+  <link rel="stylesheet" href="../dist/mduiEditor.min.css"/>
+  <style>
+    .editor {
+      width: 600px;
+      height: 600px;
+      margin: 20px auto;
+    }
+    #toolbar,
+    #content {
+      border: 1px solid rgba(0, 0, 0, 0.12);
+    }
+
+    #content {
+      border-top: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="editor">
+    <div id="toolbar"></div>
+    <div id="content"></div>
+  </div>
+
+  <script src="https://cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
+  <script src="../dist/mduiEditor.min.js"></script>
+  <script>
+    var editor = new mduiEditor('#toolbar', '#content');
+  </script>
+</body>
+</html>

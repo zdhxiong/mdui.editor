@@ -12,25 +12,26 @@ class Italic {
 
   onclick() {
     const { editor } = this;
-    const isSeleEmpty = editor.selection.isEmpty();
+    const { selection, cmd } = editor;
+    const isSelectionEmpty = selection.isEmpty();
 
-    if (isSeleEmpty) {
+    if (isSelectionEmpty) {
       // 选区是空的，插入并选中一个“空白”
-      editor.selection.createEmptyRange('em');
+      selection.createEmptyRange('em');
     }
 
     // 执行 italic 命令
-    editor.cmd.do('italic');
+    cmd.do('italic');
 
-    if (isSeleEmpty) {
-      // 需要将选取折叠起来
-      editor.selection.collapseRange();
-      editor.selection.restore();
+    if (isSelectionEmpty) {
+      // 需要将选区折叠起来
+      selection.collapseRange();
+      selection.restore();
     }
   }
 
   isActive() {
-    this._active = !!this.editor.cmd.queryCommandState('italic');
+    this._active = document.queryCommandState('italic');
 
     return this._active;
   }

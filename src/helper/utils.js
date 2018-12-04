@@ -107,14 +107,21 @@ export function moveListToRoot($list, editor) {
  * @param editor
  */
 export function moveElemToP(editor) {
+  const { selection, cmd } = editor;
+
   $(editor.$content[0].childNodes).each((i, curElem) => {
-    const { nodeType } = curElem;
     const $curElem = $(curElem);
+    const {
+      nodeType,
+      nodeName,
+      nodeValue,
+      outerHTML,
+    } = curElem;
 
     if (nodeType === 3) {
       // 纯文本，移动到 p 标签中
-      editor.selection.createRangeByElem($curElem.prev(), false, true);
-      editor.cmd.do('insertAfterRoot', curElem.nodeValue ? `<p>${curElem.nodeValue}</p>` : '<p><br></p>');
+      selection.createRangeByElem($curElem.prev(), false, true);
+      cmd.do('insertAfterRoot', nodeValue ? `<p>${nodeValue}</p>` : '<p><br></p>');
       $curElem.remove();
 
       return;
@@ -125,15 +132,15 @@ export function moveElemToP(editor) {
       return;
     }
 
-    if (['B', 'STRONG', 'I', 'EM', 'A'].indexOf(curElem.nodeName) > -1) {
+    if (['B', 'STRONG', 'I', 'EM', 'A'].indexOf(nodeName) > -1) {
       // 移动到 p 标签中
-      editor.selection.createRangeByElem($curElem, false, true);
-      editor.cmd.do('replaceRoot', curElem.outerHTML ? `<p>${curElem.outerHTML}</p>` : '<p><br></p>');
+      selection.createRangeByElem($curElem, false, true);
+      cmd.do('replaceRoot', outerHTML ? `<p>${outerHTML}</p>` : '<p><br></p>');
 
       return;
     }
 
-    if (curElem.nodeName === 'BR') {
+    if (nodeName === 'BR') {
       // 移除 br 元素
       $curElem.remove();
     }

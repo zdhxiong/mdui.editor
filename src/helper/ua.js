@@ -8,6 +8,7 @@ class UA {
    */
   static isWebkit() {
     const reg = /webkit/i;
+
     return reg.test(navigator.userAgent);
   }
 

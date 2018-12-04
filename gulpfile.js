@@ -1,5 +1,9 @@
+const autoprefixer = require('autoprefixer');
 const gulp = require('gulp');
+const cssmin = require('gulp-cssmin');
 const header = require('gulp-header');
+const less = require('gulp-less');
+const postcss = require('gulp-postcss');
 const uglify = require('gulp-uglify');
 const sourcemaps = require('gulp-sourcemaps');
 const rename = require('gulp-rename');
@@ -20,7 +24,24 @@ const banner = `
  */
 `.trim();
 
-gulp.task('build', (cb) => {
+gulp.task('css', (cb) => {
+  gulp.src('./src/index.less')
+    .pipe(sourcemaps.init())
+    .pipe(less())
+    .pipe(postcss([
+      autoprefixer(),
+    ]))
+    .pipe(header(banner))
+    .pipe(rename('mduiEditor.css'))
+    .pipe(gulp.dest('./dist/'))
+    .pipe(cssmin())
+    .pipe(rename('mduiEditor.min.css'))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist/'))
+    .on('end', cb);
+});
+
+gulp.task('js', (cb) => {
   rollup({
     input: './src/index.js',
     output: {
@@ -44,18 +65,13 @@ gulp.task('build', (cb) => {
     .pipe(buffer())
     .pipe(rename('mduiEditor.js'))
     .pipe(gulp.dest('./dist/'))
-    .on('end', () => {
-      gulp.src('./dist/mduiEditor.js')
-        .pipe(sourcemaps.init())
-        .pipe(uglify())
-        .pipe(header(banner))
-        .pipe(rename('mduiEditor.min.js'))
-        .pipe(sourcemaps.write('./'))
-        .pipe(gulp.dest('./dist/'))
-        .on('end', () => {
-          if (cb) {
-            cb();
-          }
-        });
-    });
+    .pipe(sourcemaps.init())
+    .pipe(uglify())
+    .pipe(header(banner))
+    .pipe(rename('mduiEditor.min.js'))
+    .pipe(sourcemaps.write('./'))
+    .pipe(gulp.dest('./dist/'))
+    .on('end', cb);
 });
+
+gulp.task('default', ['css', 'js']);

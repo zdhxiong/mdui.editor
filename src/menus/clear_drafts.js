@@ -10,12 +10,13 @@ class ClearDrafts {
 
   onclick() {
     const { editor } = this;
+    const { options } = editor;
 
     editor.setHTML('');
 
-    if (editor.options.autoSave) {
-      localStorage.removeItem(editor.options.autoSaveKey);
-      editor.options.onClearDrafts();
+    if (options.autoSave) {
+      window.localStorage.removeItem(options.autoSaveKey);
+      options.onClearDrafts();
     }
   }
 }

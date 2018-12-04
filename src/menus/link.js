@@ -1,3 +1,4 @@
+import mdui from 'mdui';
 import { correctUrl } from '../helper/utils';
 
 /**
@@ -13,25 +14,33 @@ class Link {
 
   onclick() {
     const { editor } = this;
-
-    const $curElem = editor.selection.getContainerElem();
+    const { selection, cmd } = editor;
+    const $curElem = selection.getContainerElem();
     let defaultUrl = '';
 
     if ($curElem.is('a')) {
       // 当前选区为 a 元素，则选中整个 a 元素
-      editor.selection.createRangeByElem($curElem, null, true);
+      selection.createRangeByElem($curElem, null, true);
       defaultUrl = $curElem.attr('href');
     }
 
-    /* eslint-disable no-alert */
-    const url = window.prompt('请输入链接地址', defaultUrl);
-    if (url) {
-      // 链接不为空，添加链接
-      editor.cmd.do('createLink', correctUrl(url));
-    } else {
-      // 链接为空，移除链接
-      editor.cmd.do('unlink');
-    }
+    const onConfirm = (url) => {
+      if (url) {
+        // 链接不为空，添加链接
+        cmd.do('createLink', correctUrl(url));
+      } else {
+        // 链接为空，移除链接
+        cmd.do('unlink');
+      }
+    };
+
+    const promptOptions = {
+      confirmText: '确认',
+      cancelText: '取消',
+      defaultValue: defaultUrl,
+    };
+
+    mdui.prompt('请输入链接地址', onConfirm, false, promptOptions);
   }
 
   isActive() {

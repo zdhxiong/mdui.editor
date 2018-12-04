@@ -29,7 +29,7 @@ class Selection {
       return;
     }
 
-    // 获取当前的选取
+    // 获取当前的选区
     const selection = window.getSelection();
     if (selection.rangeCount === 0) {
       return;
@@ -51,11 +51,12 @@ class Selection {
   }
 
   /**
-   * 折叠选取
+   * 折叠选区
    * @param toStart
    */
   collapseRange(toStart = false) {
     const range = this._currentRange;
+
     if (range) {
       range.collapse(toStart);
     }
@@ -66,16 +67,23 @@ class Selection {
    * @returns {string}
    */
   getText() {
-    return this._currentRange ? this._currentRange.toString() : '';
+    let text = '';
+
+    if (this._currentRange) {
+      text = this._currentRange.toString();
+    }
+
+    return text;
   }
 
   /**
    * 获取选区元素的 JQ 对象
    * @param _range
-   * @returns {jQuery}
+   * @returns []
    */
   getContainerElem(_range) {
     const range = _range || this._currentRange;
+
     if (range) {
       const elem = range.commonAncestorContainer;
       return $(elem.nodeType === 1 ? elem : elem.parentNode);
@@ -87,26 +95,27 @@ class Selection {
   /**
    * 获取当前选区的最顶级元素的 JQ 对象
    * @param _range
-   * @returns {*|JQ}
+   * @returns []
    */
   getRootElem(_range) {
     const $elem = this.getContainerElem(_range);
+    const { $content } = this.editor;
 
-    if (this.editor.$content.is($elem)) {
+    if ($content.is($elem)) {
       // 当前选区选中了多个元素，返回 $content
       return $();
     }
 
-    if ($elem.parent().is(this.editor.$content)) {
+    if ($elem.parent().is($content)) {
       // 当前选区的元素就是 root 元素
       return $elem;
     }
 
-    return $elem.parentsUntil(this.editor.$content).last();
+    return $elem.parentsUntil($content).last();
   }
 
   /**
-   * 判断选取是否为空
+   * 判断选区是否为空
    * @returns {boolean}
    */
   isEmpty() {

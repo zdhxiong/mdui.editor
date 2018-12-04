@@ -22,7 +22,7 @@ class Ol {
   }
 
   isActive() {
-    this._active = !!this.editor.cmd.queryCommandState('insertOrderedList');
+    this._active = document.queryCommandState('insertOrderedList');
 
     return this._active;
   }

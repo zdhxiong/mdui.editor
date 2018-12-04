@@ -25,10 +25,14 @@
     "mdui": "^0.4.2"
   },
   "devDependencies": {
+    "autoprefixer": "^9.4.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
     "gulp": "^3.9.1",
+    "gulp-cssmin": "^0.2.0",
     "gulp-header": "^2.0.5",
+    "gulp-less": "^4.0.1",
+    "gulp-postcss": "^8.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-uglify": "^3.0.0",
@@ -43,5 +47,10 @@
   },
   "engines": {
     "node": ">=10"
-  }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not ie <= 10"
+  ]
 }

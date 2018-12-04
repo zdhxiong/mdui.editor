@@ -15,36 +15,35 @@ class Command {
    */
   do(name, value) {
     const { editor } = this;
+    const { selection, menus, change } = editor;
 
-    // 如果无选取，忽略
-    if (!editor.selection.getRange()) {
+    // 如果无选区，忽略
+    if (!selection.getRange()) {
       return;
     }
 
     // 恢复选区
-    editor.selection.restore();
+    selection.restore();
 
-    // 执行
-    const _name = `_${name}`;
+    const customName = `_${name}`;
 
-    if (this[_name]) {
-      // 有自定义事件
-      this[_name](value);
+    // 执行命令
+    if (this[customName]) {
+      this[customName](value);
     } else {
-      // 默认 command
-      this._execCommand(name, value);
+      document.execCommand(name, false, value);
     }
 
     // 修改菜单状态
-    editor.menus.changeStatus();
+    menus.changeStatus();
 
-    // 最后，恢复选取保证光标在原来的位置闪烁
-    editor.selection.saveRange();
-    editor.selection.restore();
+    // 最后，恢复选区保证光标在原来的位置闪烁
+    selection.saveRange();
+    selection.restore();
 
     // 触发 onchange
-    if (editor.change) {
-      editor.change();
+    if (change) {
+      change();
     }
   }
 
@@ -57,9 +56,9 @@ class Command {
     const { editor } = this;
     const range = editor.selection.getRange();
 
-    if (this.queryCommandSupported('insertHTML')) {
+    if (document.queryCommandSupported('insertHTML')) {
       // W3C
-      this._execCommand('insertHTML', html);
+      document.execCommand('insertHTML', false, html);
     } else if (range.insertNode) {
       // IE
       range.deleteContents();
@@ -77,12 +76,13 @@ class Command {
    */
   _replaceRoot(html) {
     const { editor } = this;
+    const { selection } = editor;
 
-    const $oldElem = editor.selection.getRootElem();
+    const $oldElem = selection.getRootElem();
     const $newElem = $(html).insertAfter($oldElem);
     $oldElem.remove();
-    editor.selection.createRangeByElem($newElem, false, true);
-    editor.selection.restore();
+    selection.createRangeByElem($newElem, false, true);
+    selection.restore();
   }
 
   /**
@@ -92,11 +92,12 @@ class Command {
    */
   _insertAfterRoot(html) {
     const { editor } = this;
+    const { selection } = editor;
 
-    const $oldElem = editor.selection.getRootElem();
+    const $oldElem = selection.getRootElem();
     const $newElem = $(html).insertAfter($oldElem);
-    editor.selection.createRangeByElem($newElem, false, true);
-    editor.selection.restore();
+    selection.createRangeByElem($newElem, false, true);
+    selection.restore();
   }
 
   /**
@@ -106,10 +107,11 @@ class Command {
    */
   _appendHTML(html) {
     const { editor } = this;
+    const { selection, $content } = editor;
 
-    const $newElem = $(html).appendTo(editor.$content);
-    editor.selection.createRangeByElem($newElem, false, true);
-    editor.selection.restore();
+    const $newElem = $(html).appendTo($content);
+    selection.createRangeByElem($newElem, false, true);
+    selection.restore();
   }
 
   /**
@@ -125,43 +127,6 @@ class Command {
       range.deleteContents();
       range.insertNode($elem[0]);
     }
-  }
-
-  /**
-   * 封装 execCommand
-   * @param name
-   * @param value
-   * @private
-   */
-  _execCommand(name, value) {
-    document.execCommand(name, false, value);
-  }
-
-  /**
-   * 封装 document.queryCommandValue
-   * @param name
-   * @returns {string}
-   */
-  queryCommandValue(name) {
-    return document.queryCommandValue(name);
-  }
-
-  /**
-   * 封装 document.queryCommandState
-   * @param name
-   * @returns {boolean}
-   */
-  queryCommandState(name) {
-    return document.queryCommandState(name);
-  }
-
-  /**
-   * 封装 document.queryCommandSupported
-   * @param name
-   * @returns {boolean}
-   */
-  queryCommandSupported(name) {
-    return document.queryCommandSupported(name);
   }
 }
 

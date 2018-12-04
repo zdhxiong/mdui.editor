@@ -39,21 +39,23 @@ const config = {
  */
 class Editor {
   /**
-   * @param contentSelector 内容区域选择器
    * @param toolbarSelector 工具栏区域选择器
+   * @param contentSelector 内容区域选择器
    * @param _options        配置参数
    */
-  constructor(contentSelector, toolbarSelector, _options = {}) {
+  constructor(toolbarSelector, contentSelector, _options = {}) {
     editorId += 1;
 
     this.id = `mc-editor-${editorId}`;
     this.options = $.extend({}, config, _options);
 
-    this.$toolbar = $(toolbarSelector);
-    this.$content = $(contentSelector).attr({
-      'contenteditable': '',
-      'placeholder': this.options.placeholder,
-    });
+    this.$toolbar = $(toolbarSelector).addClass('mduiEditor-toolbar');
+    this.$content = $(contentSelector)
+      .addClass('mduiEditor-content mdui-typo')
+      .attr({
+        contenteditable: '',
+        placeholder: this.options.placeholder,
+      });
 
     this.cmd = new Command(this);
     this.purifier = new Purifier(this);
@@ -84,7 +86,7 @@ class Editor {
    * @param newLine    是否在内容后面添加一个空行
    */
   initSelection(newLine) {
-    const { $content } = this;
+    const { selection, $content } = this;
     const $children = $content.children();
 
     // 如果编辑器区域无内容，添加一个空行，重新设置选区
@@ -108,8 +110,8 @@ class Editor {
     }
 
     this._updatePlaceholder();
-    this.selection.createRangeByElem($last, false, true);
-    this.selection.restore();
+    selection.createRangeByElem($last, false, true);
+    selection.restore();
   }
 
   /**
@@ -221,9 +223,10 @@ class Editor {
    * @private
    */
   _bindOnchange() {
+    const { options } = this;
+    const onchangeTimeout = parseInt(options.onchangeTimeout, 10);
     let onchangeTimeoutId = 0;
     let beforeChangeHTML = this.getHTML();
-    const onchangeTimeout = parseInt(this.options.onchangeTimeout, 10);
 
     // 触发 change 的有三个场景：
     // 1. $content.on('click keyup')
@@ -244,12 +247,12 @@ class Editor {
 
       onchangeTimeoutId = setTimeout(() => {
         // 触发配置参数中的 onchange 函数
-        this.options.onchange(this);
+        options.onchange(this);
         beforeChangeHTML = currentHTML;
 
         // 保存到 localStorage
-        if (this.options.autoSave) {
-          localStorage.setItem(this.options.autoSaveKey, this.getHTML());
+        if (options.autoSave) {
+          window.localStorage.setItem(options.autoSaveKey, this.getHTML());
         }
 
         // 更新 placeholder 显示状态
@@ -291,7 +294,7 @@ class Editor {
    * @private
    */
   _pasteHandle() {
-    const { $content } = this;
+    const { cmd, $content } = this;
 
     $content.on('paste', (e) => {
       e.preventDefault();
@@ -309,7 +312,7 @@ class Editor {
 
       // 代码块中只能粘贴纯文本
       if (nodeName === 'CODE' || nodeName === 'PRE') {
-        this.cmd.do('insertHTML', pasteText);
+        cmd.do('insertHTML', pasteText);
         return;
       }
 
@@ -320,10 +323,10 @@ class Editor {
       try {
         // firefox 中，获取的 pasteHtml 可能是没有 <ul> 包裹的 <li>
         // 因此执行 insertHTML 会报错
-        this.cmd.do('insertHTML', pasteHTML);
+        cmd.do('insertHTML', pasteHTML);
       } catch (ex) {
         // 此时使用 pasteText 来兼容一下
-        this.cmd.do('insertHTML', pasteText);
+        cmd.do('insertHTML', pasteText);
       }
     });
   }
@@ -336,11 +339,13 @@ class Editor {
     const { $content } = this;
 
     $content.on('keydown keyup', (event) => {
-      if (event.keyCode === 8 || event.keyCode === 46) {
+      const { keyCode, type } = event;
+
+      if (keyCode === 8 || keyCode === 46) {
         // 按删除键时，始终保留最后一个空行
         const html = $content.html().toLowerCase().trim();
 
-        if (event.type === 'keydown') {
+        if (type === 'keydown') {
           if (html === '<p><br></p>') {
             event.preventDefault();
           } else if (!html) {
@@ -349,7 +354,7 @@ class Editor {
           }
         }
 
-        if (event.type === 'keyup') {
+        if (type === 'keyup') {
           if (!html) {
             $content.html('<p><br></p>');
           }

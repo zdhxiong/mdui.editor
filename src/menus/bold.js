@@ -12,25 +12,26 @@ class Bold {
 
   onclick() {
     const { editor } = this;
-    const isSeleEmpty = editor.selection.isEmpty();
+    const { selection, cmd } = editor;
+    const isSelectionEmpty = selection.isEmpty();
 
-    if (isSeleEmpty) {
+    if (isSelectionEmpty) {
       // 选区是空的，插入并选中一个“空白”
-      editor.selection.createEmptyRange('strong');
+      selection.createEmptyRange('strong');
     }
 
     // 执行 bold 命令
-    editor.cmd.do('bold');
+    cmd.do('bold');
 
-    if (isSeleEmpty) {
-      // 需要将选取折叠起来
-      editor.selection.collapseRange();
-      editor.selection.restore();
+    if (isSelectionEmpty) {
+      // 需要将选区折叠起来
+      selection.collapseRange();
+      selection.restore();
     }
   }
 
   isActive() {
-    this._active = !!this.editor.cmd.queryCommandState('bold');
+    this._active = document.queryCommandState('bold');
 
     return this._active;
   }

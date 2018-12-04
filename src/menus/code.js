@@ -16,77 +16,78 @@ class Code {
 
   _init() {
     const { editor } = this;
+    const { selection, cmd, $content } = editor;
 
-    editor.$content
-      .on('keydown', (event) => {
-        if (event.keyCode === 13) {
-          // 按回车时，添加 \n
-          if (this._active) {
-            event.preventDefault();
+    $content.on('keydown', (event) => {
+      if (event.keyCode === 13) {
+        // 按回车时，添加 \n
+        if (this._active) {
+          event.preventDefault();
 
-            const _startOffset = editor.selection.getRange().startOffset;
+          const _startOffset = selection.getRange().startOffset;
 
-            editor.cmd.do('insertHTML', '\n');
-            editor.selection.saveRange();
-            if (editor.selection.getRange().startOffset === _startOffset) {
-              // 没起作用，再来一次
-              editor.cmd.do('insertHTML', '\n');
-            }
-
-            // 换行后滚动条回到最左侧
-            editor.selection.getContainerElem()[0].scrollLeft = 0;
+          cmd.do('insertHTML', '\n');
+          selection.saveRange();
+          if (selection.getRange().startOffset === _startOffset) {
+            // 没起作用，再来一次
+            cmd.do('insertHTML', '\n');
           }
-        }
 
-        if (event.keyCode === 9) {
-          // 按 tab 时，添加四个空格
-          if (this._active) {
-            event.preventDefault();
-            editor.cmd.do('insertHTML', '    ');
-          }
+          // 换行后滚动条回到最左侧
+          selection.getContainerElem()[0].scrollLeft = 0;
         }
-      });
+      }
+
+      if (event.keyCode === 9) {
+        // 按 tab 时，添加四个空格
+        if (this._active) {
+          event.preventDefault();
+          cmd.do('insertHTML', '    ');
+        }
+      }
+    });
   }
 
   onclick() {
     const { editor } = this;
-    const $rootElem = editor.selection.getRootElem();
+    const { selection, cmd, $content } = editor;
+    const $rootElem = selection.getRootElem();
 
     if (this._active) {
       // 若当前是代码块，则每一行都转换为 p 标签
       const textArray = $rootElem.text().split('\n');
       let html = '';
 
-      textArray.forEach((_line) => {
-        const line = replaceHtmlSymbol(_line);
+      textArray.forEach((line) => {
+        line = replaceHtmlSymbol(line);
         html = line ? `<p>${line}</p>${html}` : `<p><br></p>${html}`;
       });
 
-      editor.cmd.do('replaceRoot', html);
+      cmd.do('replaceRoot', html);
 
       return;
     }
 
     if (!$rootElem.length) {
-      const range = editor.selection.getRange();
+      const range = selection.getRange();
 
       if (range.collapsed) {
         // 没有选中任何选区，在最后添加一行
-        editor.cmd.do('appendHTML', '<pre><br></pre>');
+        cmd.do('appendHTML', '<pre><br></pre>');
       } else {
         // 选中了多行，把多行包裹在同一个 pre 中
         let text = '';
         let isInRange = false;
         let $linesRemove = $();
 
-        editor.$content.children().each((i, line) => {
+        $content.children().each((i, line) => {
           const $line = $(line);
 
           if (!isInRange) {
             if (
               $line.is(range.startContainer)
               || $line[0].contains(range.startContainer)
-              || editor.$content.is(range.startContainer)
+              || $content.is(range.startContainer)
             ) {
               isInRange = true;
             }
@@ -112,8 +113,8 @@ class Code {
           }
         });
 
-        editor.selection.createRangeByElem($linesRemove.last(), false, true);
-        editor.cmd.do('replaceRoot', `<pre>${text}</pre>`);
+        selection.createRangeByElem($linesRemove.last(), false, true);
+        cmd.do('replaceRoot', `<pre>${text}</pre>`);
       }
 
       return;
@@ -121,7 +122,7 @@ class Code {
 
     // 选中单行，需要移除选区内容所有子元素的标签，然后转换为 pre
     const text = replaceHtmlSymbol($rootElem.text());
-    editor.cmd.do('replaceRoot', text ? `<pre>${text}</pre>` : '<pre><br></pre>');
+    cmd.do('replaceRoot', text ? `<pre>${text}</pre>` : '<pre><br></pre>');
   }
 
   isActive() {

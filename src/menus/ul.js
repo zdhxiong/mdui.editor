@@ -22,7 +22,7 @@ class Ul {
   }
 
   isActive() {
-    this._active = !!this.editor.cmd.queryCommandState('insertUnOrderedList');
+    this._active = document.queryCommandState('insertUnOrderedList');
 
     return this._active;
   }
