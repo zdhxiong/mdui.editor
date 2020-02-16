@@ -7,8 +7,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
   <meta http-equiv="Cache-Control" content="no-siteapp"/>
   <title>mdui-editor 示例</title>
-  <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/mdui/0.4.2/css/mdui.min.css"/>
-  <link rel="stylesheet" href="../dist/mduiEditor.min.css"/>
+  <link rel="stylesheet" href="../node_modules/mdui/dist/css/mdui.css"/>
+  <link rel="stylesheet" href="../dist/css/editor.css"/>
   <style>
     .editor {
       width: 600px;
@@ -32,10 +32,13 @@
     <div id="content"></div>
   </div>
 
-  <script src="https://cdnjs.loli.net/ajax/libs/mdui/0.4.2/js/mdui.min.js"></script>
-  <script src="../dist/mduiEditor.min.js"></script>
+  <script src="../dist/js/editor.js"></script>
   <script>
-    var editor = new mduiEditor('#toolbar', '#content');
+    var editor = new Editor('#toolbar', '#content', {
+      autoSave: true,
+      imageUploadUrl: './upload.php',
+      imageUploadSuffix: ['png'],
+    });
   </script>
 </body>
 </html>

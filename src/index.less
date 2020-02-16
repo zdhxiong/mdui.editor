@@ -1,66 +1,75 @@
-.mduiEditor-toolbar {
+//@import '~mdui/src/components/button/index';
+//@import '~mdui/src/components/textfield/index';
+//@import '~mdui/src/components/dialog/prompt';
+
+.mdui_editor-toolbar {
   display: flex;
   align-items: center;
   padding: 14px 20px;
 
-  &:after {
+  &::after {
     display: table;
     clear: both;
     content: '';
   }
 }
 
-.mduiEditor-toolbar-menu {
-  padding: 0;
+.mdui_editor-toolbar-menu {
   width: 28px;
   min-width: 28px;
   height: 28px;
+  padding: 0;
+  color: #212121;
   line-height: 28px;
   border-radius: 3px;
   box-shadow: inset 0 0 0 1px transparent;
   opacity: 0.6;
-  color: #212121;
 
   i {
     font-size: 21px;
   }
 
   &:hover {
-    opacity: 1;
     background-color: transparent;
+    opacity: 1;
   }
 
-  &+.mduiEditor-toolbar-menu {
+  &+.mdui_editor-toolbar-menu {
     margin-left: 2px;
   }
 }
 
-.mduiEditor-toolbar-menu-active {
+.mdui_editor-toolbar-menu-active {
   background-color: rgba(0, 0, 0, .12) !important;
   opacity: 1;
 }
 
-.mduiEditor-toolbar-divider {
-  width: 1px;
-  width: 0.8px;
-  background-color: #e5e5e5;
-  margin: 0 6px;
-  height: 28px;
-  display: inline-block;
-  float: left;
+.mdui_editor-toolbar-menu-image + input[type="file"] {
+  display: none;
 }
 
-.mduiEditor-content {
-  padding: 16px 20px;
-  height: calc(~'100% - 58px');
-  overflow-y: auto;
-  outline: none;
+.mdui_editor-toolbar-divider {
+  display: inline-block;
+  float: left;
+  width: 1px;
+  width: 0.8px;
+  height: 28px;
+  margin: 0 6px;
+  background-color: #e5e5e5;
+}
+
+.mdui_editor-content {
   box-sizing: border-box;
+  /* stylelint-disable-next-line */
+  height: calc(~'100% - 58px');
+  padding: 16px 20px;
+  overflow-y: auto;
+  color: rgba(0, 0, 0, 0.87);
   font-size: 14px;
   line-height: 22px;
-  color: rgba(0, 0, 0, 0.87);
   white-space: pre-wrap;
   word-wrap: break-word;
+  outline: none;
 
   h2 {
     margin: 20px 0;
@@ -74,8 +83,8 @@
 
   ol,
   ul {
-    padding-left: 20px;
     margin: 20px 0;
+    padding-left: 20px;
   }
 
   blockquote {
@@ -89,7 +98,6 @@
   }
 
   pre {
-    border-radius: 4px;
     margin: 1em 0;
     padding: 10px 12px;
     overflow: auto;
@@ -97,6 +105,7 @@
     word-wrap: normal;
     background: #f6f6f6;
     border: none;
+    border-radius: 4px;
   }
 
   hr {
@@ -109,30 +118,30 @@
   }
 
   figure {
-    text-align: center;
     margin: 24px 0;
     padding: 12px 0 8px 0;
+    text-align: center;
 
     figcaption {
-      font-size: 14px;
-      color: #999;
       margin-top: 8px;
+      color: #999;
+      font-size: 14px;
     }
 
-    figcaption:empty:before {
-      content: attr(placeholder);
+    figcaption:empty::before {
       z-index: -1;
       color: #bfbfbf;
       cursor: text;
+      content: attr(placeholder);
     }
   }
 }
 
-.mduiEditor-content-empty {
-  &:before {
-    content: attr(placeholder);
-    color: rgba(0, 0, 0, .42);
+.mdui_editor-content-empty {
+  &::before {
     position: absolute;
+    color: rgba(0, 0, 0, .42);
     cursor: text;
+    content: attr(placeholder);
   }
 }
