@@ -12,7 +12,7 @@ import 'mdui.jq/es/methods/trigger';
 import 'mdui/es/components/dialog/alert';
 import { Dialog } from 'mdui/es/components/dialog/class';
 import 'mdui/es/components/dialog/dialog';
-import mdui from 'mdui/es/global/mdui';
+import mdui from 'mdui/es/mdui';
 import 'mdui/es/jq_extends/static/guid';
 import MenuAbstract from '../abstracts/menuAbstract';
 import Editor from '../index';

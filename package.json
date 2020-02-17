@@ -15,6 +15,14 @@
     "css": "npm run stylelint && gulp",
     "build": "npm run js && npm run css"
   },
+  "files": [
+    "dist",
+    "es",
+    "src/index.less",
+    "LICENSE",
+    "package.json",
+    "README.md"
+  ],
   "husky": {
     "hooks": {
       "pre-commit": "npm run build"

@@ -5,7 +5,7 @@ import 'mdui.jq/es/methods/is';
 import { returnFalse } from 'mdui.jq/es/utils';
 import 'mdui/es/components/dialog/prompt';
 import 'mdui/es/components/textfield';
-import mdui from 'mdui/es/global/mdui';
+import mdui from 'mdui/es/mdui';
 import MenuAbstract from '../abstracts/menuAbstract';
 
 /**
