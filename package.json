@@ -83,10 +83,5 @@
   },
   "engines": {
     "node": ">=12"
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "ie >= 11"
-  ]
+  }
 }
