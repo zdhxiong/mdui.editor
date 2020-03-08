@@ -8,6 +8,7 @@ import 'mdui.jq/es/methods/is';
 import 'mdui.jq/es/methods/next';
 import 'mdui.jq/es/methods/on';
 import 'mdui.jq/es/methods/remove';
+import 'mdui.jq/es/methods/val';
 import 'mdui.jq/es/methods/trigger';
 import 'mdui/es/components/dialog/alert';
 import { Dialog } from 'mdui/es/components/dialog/class';
@@ -163,6 +164,7 @@ class Image extends MenuAbstract {
       }
 
       this.upload(files[0]);
+      this.$input.val('');
     });
   }
 
@@ -211,16 +213,17 @@ class Image extends MenuAbstract {
           content: '<p class="mdui_editor-upload-progress">0%</p>',
           history: false,
           modal: true,
+          cssClass: 'mdui_editor-upload-progress-dialog',
         });
 
         const $progress = loadingDialog.$element.find(
           '.mdui_editor-upload-progress',
         );
 
-        xhr.addEventListener('progress', event => {
+        xhr.upload.onprogress = (event): void => {
           // @ts-ignore
           $progress.html(`${(event.loaded / event.total).toFixed(2)}%`);
-        });
+        };
       },
       complete: () => {
         clearInterval(uploadTimeInterval);
