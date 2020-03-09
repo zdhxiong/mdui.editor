@@ -81,7 +81,7 @@ class Code extends MenuAbstract {
 
       if (range.collapsed) {
         // 没有选中任何选区，在最后添加一行
-        this.command.do('appendHTML', '<pre><br></pre>');
+        this.command.do('appendHTML', '<pre><code><br></code></pre>');
       } else {
         // 选中了多行，把多行包裹在同一个 pre 中
         let text = '';
@@ -124,7 +124,7 @@ class Code extends MenuAbstract {
         });
 
         this.selection.createRangeByElem($linesRemove.last(), false, true);
-        this.command.do('replaceRoot', `<pre>${text}</pre>`);
+        this.command.do('replaceRoot', `<pre><code>${text}</code></pre>`);
       }
 
       return;
@@ -134,7 +134,7 @@ class Code extends MenuAbstract {
     const text = replaceHtmlSymbol($rootElem.text());
     this.command.do(
       'replaceRoot',
-      text ? `<pre>${text}</pre>` : '<pre><br></pre>',
+      text ? `<pre><code>${text}</code></pre>` : '<pre><code><br></code></pre>',
     );
   }
 
