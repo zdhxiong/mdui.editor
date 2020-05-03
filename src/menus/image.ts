@@ -222,7 +222,7 @@ class Image extends MenuAbstract {
 
         xhr.upload.onprogress = (event): void => {
           // @ts-ignore
-          $progress.html(`${(event.loaded / event.total).toFixed(2)}%`);
+          $progress.html(`${((event.loaded / event.total) * 100).toFixed(0)}%`);
         };
       },
       complete: () => {
