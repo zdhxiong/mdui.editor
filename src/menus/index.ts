@@ -50,7 +50,7 @@ class Menus extends CommonAbstract {
    * @private
    */
   private init(): void {
-    this.editor.options.menus!.forEach(name => {
+    this.editor.options.menus!.forEach((name) => {
       // 插入分隔符
       if (name === '|') {
         this.$toolbar.append('<div class="mdui_editor-toolbar-divider"></div>');

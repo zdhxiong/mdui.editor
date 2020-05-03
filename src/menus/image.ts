@@ -53,7 +53,7 @@ class Image extends MenuAbstract {
   }
 
   private bindKeyboardEvent(): void {
-    this.$container.on('keydown', event => {
+    this.$container.on('keydown', (event) => {
       const keyCode = (event as KeyboardEvent).keyCode;
 
       this.selection.saveRange();
@@ -63,10 +63,7 @@ class Image extends MenuAbstract {
       if (keyCode === 8 || keyCode === 46) {
         if ($curElem.is('figcaption')) {
           // 在 figcaption 元素中按删除键时，若该元素内容为空，则不删除
-          const html = $curElem
-            .html()
-            .toLowerCase()
-            .trim();
+          const html = $curElem.html().toLowerCase().trim();
 
           if (!html || html === '<br>' || html === '<br/>') {
             $curElem.html('');
@@ -106,17 +103,14 @@ class Image extends MenuAbstract {
       }
     });
 
-    this.$container.on('keyup', event => {
+    this.$container.on('keyup', (event) => {
       const keyCode = (event as KeyboardEvent).keyCode;
       const $curElem = this.selection.getContainerElem();
 
       if (keyCode === 8 || keyCode === 46) {
         // 在 figcaption 中删除时，若该元素不含文字，则清空该元素
         if ($curElem.is('figcaption')) {
-          const html = $curElem
-            .html()
-            .toLowerCase()
-            .trim();
+          const html = $curElem.html().toLowerCase().trim();
 
           if (!html || html === '<br>' || html === '<br/>') {
             $curElem.html('');
@@ -137,7 +131,7 @@ class Image extends MenuAbstract {
       gif: 'image/gif',
     };
 
-    this.accepts = this.suffixs.map(suffix => map[suffix]);
+    this.accepts = this.suffixs.map((suffix) => map[suffix]);
   }
 
   /**
@@ -155,7 +149,7 @@ class Image extends MenuAbstract {
    * 选择文件后触发的事件
    */
   private bindInputChange(): void {
-    this.$input.on('change', event => {
+    this.$input.on('change', (event) => {
       // @ts-ignore
       const files = event.target.files as FileList;
 
@@ -204,7 +198,7 @@ class Image extends MenuAbstract {
       dataType: 'json',
       contentType: false,
       global: false,
-      beforeSend: xhr => {
+      beforeSend: (xhr) => {
         uploadTime = 0;
         uploadTimeInterval = setInterval(() => (uploadTime += 100), 100);
 
@@ -237,7 +231,7 @@ class Image extends MenuAbstract {
         }
       },
     })
-      .then(response => {
+      .then((response) => {
         if (this.editor.options.imageUploadResponseTransform) {
           response = this.editor.options.imageUploadResponseTransform(response);
         }
@@ -248,10 +242,7 @@ class Image extends MenuAbstract {
         }
 
         const $rootElem = this.selection.getRootElem();
-        const rootHTML = $rootElem
-          .html()
-          .toLowerCase()
-          .trim();
+        const rootHTML = $rootElem.html().toLowerCase().trim();
         const imgHTML = `<figure><img src="${response.data.url}"/><figcaption placeholder="图片描述（选填）"></figcaption></figure>`;
 
         if (

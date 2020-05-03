@@ -231,9 +231,7 @@ class Editor {
   ) {
     extend(this.options, options);
 
-    this.$toolbar = $(toolbar)
-      .first()
-      .addClass('mdui_editor-toolbar');
+    this.$toolbar = $(toolbar).first().addClass('mdui_editor-toolbar');
 
     this.$container = $(container)
       .first()
@@ -469,7 +467,7 @@ class Editor {
    * 粘贴文字、图片事件
    */
   private pasteHandler(): void {
-    this.$container.on('paste', event => {
+    this.$container.on('paste', (event) => {
       event.preventDefault();
 
       // 获取粘贴的文字
@@ -508,15 +506,12 @@ class Editor {
    * 按删除键时的处理
    */
   private deleteHandler(): void {
-    this.$container.on('keydown keyup', event => {
+    this.$container.on('keydown keyup', (event) => {
       const { keyCode, type } = event as KeyboardEvent;
 
       if (keyCode === 8 || keyCode === 46) {
         // 按删除键时，始终保留最后一个空行
-        const html = this.$container
-          .html()
-          .toLowerCase()
-          .trim();
+        const html = this.$container.html().toLowerCase().trim();
 
         if (type === 'keydown') {
           if (html === '<p><br></p>') {
@@ -543,7 +538,7 @@ class Editor {
    * @private
    */
   private containerClickHandler(): void {
-    this.$container.on('click', event => {
+    this.$container.on('click', (event) => {
       const target = event.target as HTMLElement;
 
       if (!$(target).is(this.$container)) {

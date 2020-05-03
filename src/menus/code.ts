@@ -27,7 +27,7 @@ class Code extends MenuAbstract {
   }
 
   private init(): void {
-    this.$container.on('keydown', event => {
+    this.$container.on('keydown', (event) => {
       if ((event as KeyboardEvent).keyCode === 13) {
         // 按回车时，添加 \n
         if (this.active) {
@@ -66,7 +66,7 @@ class Code extends MenuAbstract {
       const textArray = $rootElem.text().split('\n');
       let html = '';
 
-      textArray.forEach(line => {
+      textArray.forEach((line) => {
         line = replaceHtmlSymbol(line);
         html = line ? `<p>${line}</p>${html}` : `<p><br></p>${html}`;
       });
