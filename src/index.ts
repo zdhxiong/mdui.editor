@@ -144,16 +144,13 @@ const DEFAULT_OPTIONS: OPTIONS = {
   menus: [
     'bold',
     'italic',
-    '|',
     'head',
     'code',
     'ol',
     'ul',
-    '|',
     'link',
     'image',
     ' ',
-    '|',
     'clear_drafts',
   ],
   tagsWhiteList: [

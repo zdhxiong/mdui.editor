@@ -58,10 +58,9 @@ class Link extends MenuAbstract {
 
     dialog.$element
       .find('.mdui-textfield-input')
-      .attr('type', 'url')
-      .after(
-        '<div class="mdui-textfield-error">链接格式错误（需以 http 或 https 开头）</div>',
-      );
+      .attr('type', 'text')
+      .attr('pattern', '^(https?|ftp|file)://[\\S]+\\.[\\S]+$')
+      .after('<div class="mdui-textfield-error">链接格式错误</div>');
 
     mdui.updateTextFields(dialog.$element.find('.mdui-textfield'));
     dialog.handleUpdate();
