@@ -23,7 +23,6 @@ import Ul from './ul';
 
 const MenuConstructors: PlainObject = {
   bold: Bold,
-  // eslint-disable-next-line @typescript-eslint/camelcase
   clear_drafts: ClearDrafts,
   code: Code,
   head: Head,
