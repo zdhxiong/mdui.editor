@@ -1,5 +1,5 @@
 /*!
- * mdui.editor 1.0.0 (https://github.com/zdhxiong/mdui.editor#readme)
+ * mdui.editor 1.0.1 (https://github.com/zdhxiong/mdui.editor#readme)
  * Copyright 2019-2020 zdhxiong
  * Licensed under MIT
  */

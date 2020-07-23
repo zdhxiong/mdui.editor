@@ -1,8 +1,22 @@
-//@import '~mdui/src/components/button/index';
-//@import '~mdui/src/components/textfield/index';
-//@import '~mdui/src/components/dialog/alert';
-//@import '~mdui/src/components/dialog/prompt';
-//@import '~mdui/src/styles/typo';
+@globalPrimaryColors: null;
+@globalPrimaryColorDegrees: null;
+@globalAccentColors: null;
+@globalAccentColorDegrees: null;
+@globalLayoutDark: false;
+@globalLayoutAuto: false;
+@import './node_modules/mdui/src/styles/mixin.less';
+@import './node_modules/mdui/src/styles/variable.less';
+@import (inline) './node_modules/normalize.css/normalize.css';
+@import './node_modules/mdui/src/styles/global.less';
+@import './node_modules/mdui/src/components/button/index.less';
+@import './node_modules/mdui/src/components/textfield/index.less';
+@import './node_modules/mdui/src/components/dialog/alert.less';
+@import './node_modules/mdui/src/components/dialog/confirm.less';
+@import './node_modules/mdui/src/components/dialog/prompt.less';
+@import './node_modules/mdui/src/components/toolbar/index.less';
+@import './node_modules/mdui/src/styles/icon.less';
+@import './node_modules/mdui/src/styles/material-icons.less';
+@import './node_modules/mdui/src/styles/typo.less';
 
 .mdui_editor-toolbar {
   display: flex;
