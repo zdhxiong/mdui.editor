@@ -106,7 +106,7 @@ type OPTIONS = {
   imageUploadUrl?: string;
 
   /**
-   * 允许上传的图片的最大体积
+   * 允许上传的图片的最大体积，设置为 0 表示不限制
    */
   imageUploadMaxSize?: number;
 

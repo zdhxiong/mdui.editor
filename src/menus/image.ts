@@ -173,7 +173,10 @@ class Image extends MenuAbstract {
       return;
     }
 
-    if (file.size > this.editor.options.imageUploadMaxSize!) {
+    if (
+      this.editor.options.imageUploadMaxSize! &&
+      file.size > this.editor.options.imageUploadMaxSize!
+    ) {
       mdui.alert(
         `图片体积不能超过 ${memoryFormat(
           this.editor.options.imageUploadMaxSize!,

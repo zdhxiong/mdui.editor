@@ -3267,7 +3267,8 @@
               mdui.alert(("仅允许上传 " + (this.suffixs.join(', ')) + " 格式的图片"));
               return;
           }
-          if (file.size > this.editor.options.imageUploadMaxSize) {
+          if (this.editor.options.imageUploadMaxSize &&
+              file.size > this.editor.options.imageUploadMaxSize) {
               mdui.alert(("图片体积不能超过 " + (memoryFormat(this.editor.options.imageUploadMaxSize))));
               return;
           }
