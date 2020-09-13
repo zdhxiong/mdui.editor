@@ -1,6 +1,6 @@
 {
   "name": "mdui.editor",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Material Design 样式的富文本编辑器",
   "main": "dist/js/editor.js",
   "module": "dist/js/editor.esm.js",
