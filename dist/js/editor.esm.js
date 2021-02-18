@@ -1,6 +1,6 @@
 /*!
  * mdui.editor 1.0.2 (https://github.com/zdhxiong/mdui.editor#readme)
- * Copyright 2019-2020 zdhxiong
+ * Copyright 2019-2021 zdhxiong
  * Licensed under MIT
  */
 function isFunction(target) {
@@ -1132,16 +1132,16 @@ Bold.icon = 'format_bold';
 Bold.title = '粗体';
 Bold.disable = ['image'];
 
-const $document = $(document);
-const $window = $(window);
-const $body = $('body');
-
 // 避免页面加载完后直接执行css动画
 // https://css-tricks.com/transitions-only-after-page-load/
-setTimeout(() => $body.addClass('mdui-loaded'));
+setTimeout(() => $('body').addClass('mdui-loaded'));
 const mdui = {
     $: $,
 };
+
+const $document = $(document);
+const $window = $(window);
+$('body');
 
 $.fn.hasClass = function (className) {
     return this[0].classList.contains(className);
@@ -1488,6 +1488,7 @@ $.hideOverlay = function (force = false) {
 };
 
 $.lockScreen = function () {
+    const $body = $('body');
     // 不直接把 body 设为 box-sizing: border-box，避免污染全局样式
     const newBodyWidth = $body.width();
     let level = $body.data('_lockscreen_level') || 0;
@@ -1537,6 +1538,7 @@ $.throttle = function (fn, delay = 16) {
 };
 
 $.unlockScreen = function (force = false) {
+    const $body = $('body');
     let level = force ? 1 : $body.data('_lockscreen_level');
     if (level > 1) {
         $body.data('_lockscreen_level', --level);
@@ -1673,7 +1675,7 @@ class Dialog {
         // 如果对话框元素没有在当前文档中，则需要添加
         if (!contains(document.body, this.$element[0])) {
             this.append = true;
-            $body.append(this.$element);
+            $('body').append(this.$element);
         }
         extend(this.options, options);
         // 绑定取消按钮事件
